@@ -76,6 +76,39 @@ module.exports = {
         pathToConfigModule: `src/utils/typography`,
       },
     },
+
+    {
+      resolve: `gatsby-plugin-paginate`,
+      options: {
+        sources: [
+          {
+            path: `/page`,
+            pageSize: 5,
+            template: `${__dirname}/src/templates/page.js`,
+            serialize: (results) => results.allMarkdownRemark.edges,
+            query: `{
+              allMarkdownRemark {
+                edges {
+                  node {
+                    excerpt(pruneLength: 250)
+                    html
+                    id
+                    timeToRead
+                    frontmatter {
+                      date
+                      path
+                      tags
+                      title
+                    }
+                  }
+                }
+              }
+            }`
+          }
+        ]
+      }
+    },
+    
     'gatsby-plugin-netlify-cms'
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
